@@ -34,9 +34,38 @@ services:
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel
     ports:
-      - "3406:3306"
+      - "3407:3306"
     volumes:
       - "./storage/db-data:/var/lib/mysql"
+
+  zookeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2182:2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    volumes:
+      - "./storage/zookeeper/data:/var/lib/zookeeper/data"
+      - "./storage/zookeeper/log:/var/lib/zookeeper/log"
+      - "./storage/zookeeper/secrets:/var/lib/zookeeper/secrets"
+    networks:
+      - default
+      - proxynet
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=millenniumfalcon_zookeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://millenniumfalcon_kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    zookeper:
+      - php_kafka
+    volumes:
+      - "./storage/kafka/data:/var/lib/kafka/data"
+      - "./storage/kafka/secrets:/var/lib/kafka/secrets"
+    networks:
+      - default
+      - proxynet
 
 networks:
   proxynet:
