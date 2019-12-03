@@ -6,7 +6,7 @@ services:
       - ./:/var/www/
     environment:
       DB_CONNECTION: mysql
-      DB_HOST: mysql_db
+      DB_HOST: kafka_producer_mysql_db
       DB_PORT: 3306
       KAFKA_BROKERS: kafka:9092
     networks:
@@ -17,7 +17,7 @@ services:
     image: anamhossain/php-nginx:latest
     environment:
       NGINX_ROOT: "/var/www/public"
-      NGINX_FPM_HOST: php_kafka
+      NGINX_FPM_HOST: kafka_producer_php
     ports:
       - 8787:80
     depends_on:
@@ -42,7 +42,7 @@ services:
   zookeper:
     image: confluentinc/cp-zookeeper:latest
     ports:
-      - "2182:2181"
+      - "2185:2181"
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
     volumes:
@@ -56,8 +56,8 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=millenniumfalcon_zookeper:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://millenniumfalcon_kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     depends_on:
       - zookeper
