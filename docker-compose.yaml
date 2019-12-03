@@ -21,7 +21,7 @@ services:
     ports:
       - 8787:80
     depends_on:
-      - php_kafka
+      - kafka_producer_php
     networks:
       - default
       - proxynet
@@ -59,8 +59,8 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=millenniumfalcon_zookeper:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://millenniumfalcon_kafka:9092
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-    zookeper:
-      - php_kafka
+    depends_on:
+      - zookeper
     volumes:
       - "./storage/kafka/data:/var/lib/kafka/data"
       - "./storage/kafka/secrets:/var/lib/kafka/secrets"
