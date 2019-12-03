@@ -1,31 +1,32 @@
 version: "3.7"
 services:
-  php_kafka:
-    image: anamhossain/php-kafka
+  kafka_producer_php:
+    image: anamhossain/php-kafka:latest
     volumes:
       - ./:/var/www/
     environment:
       DB_CONNECTION: mysql
       DB_HOST: mysql_db
       DB_PORT: 3306
+      KAFKA_BROKERS: kafka:9092
     networks:
       - default
       - proxynet
 
-  php_nginx:
-    image: anamhossain/php-nginx
+  kafka_producer_nginx:
+    image: anamhossain/php-nginx:latest
     environment:
       NGINX_ROOT: "/var/www/public"
       NGINX_FPM_HOST: php_kafka
     ports:
-      - 8885:80
+      - 8787:80
     depends_on:
       - php_kafka
     networks:
       - default
       - proxynet
 
-  mysql_db:
+  kafka_producer_mysql_db:
     image: mysql:5
     restart: always
     environment:
