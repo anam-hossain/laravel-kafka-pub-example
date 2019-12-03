@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+  php_kafka:
+    image: anamhossain/php-kafka
+    volumes:
+      - ./:/var/www/
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql_db
+      DB_PORT: 3306
+    networks:
+      - default
+      - proxynet
+
+  php_nginx:
+    image: anamhossain/php-nginx
+    environment:
+      NGINX_ROOT: "/var/www/public"
+      NGINX_FPM_HOST: php_kafka
+    ports:
+      - 8885:80
+    depends_on:
+      - php_kafka
+    networks:
+      - default
+      - proxynet
+
+  mysql_db:
+    image: mysql:5
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: E8UQxEFic
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    ports:
+      - "3406:3306"
+    volumes:
+      - "./storage/db-data:/var/lib/mysql"
+
+networks:
+  proxynet:
+    name: pub_sub_network
+    external: true
