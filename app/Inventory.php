@@ -12,4 +12,11 @@ class Inventory extends Model
      * @var string
      */
     protected $table = 'inventories';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['make', 'model'];
 }
