@@ -11,26 +11,7 @@ anamhossain/php-kafka:latest
 
 ## Setup
 
-- Install Docker and Docker-compose in your machine
-- Create a custom docker network (pub_sub_network) for this tutorial. This will enable external communication between two microservices.
-`docker network create pub_sub_network`
-- Clone repo from https://github.com/anam-hossain/laravel-kafka-pub-example
-- Copy the `.env.local` to `.env`
-- Ensure that `KAFKA_BROKERS=kafka:9092` added to `.env` file
-- Run `docker-compose up -d` from repo directory.
-- Browse http://localhost:8787 to verify that the microservice 1 is up and running.
-
-Once confirmed that service is up and running, go back to the microservice 1terminal and run the following commands to perform database migrations:
-
-```sh
-# 1. Log in to the microservice 1 container
-
-docker-compose exec kafka_producer_php sh
-
-# 2. Run the migration
-
-php artisan migrate
-```
+Add blog post link here
 
 ## Connect to database
 
