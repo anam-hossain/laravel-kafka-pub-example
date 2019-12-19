@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Microservice 1 (Pub)
                 </div>
 
                 <div class="links">
